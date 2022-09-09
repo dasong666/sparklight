@@ -1,0 +1,28 @@
+{
+  "conditions": {
+    "all": [
+      {
+        "operator": "in",
+        "value": [
+          24735,
+          0,
+          111,
+          222,
+          333
+        ],
+        "fact": "oc"
+      },
+      {
+        "operator": "equal",
+        "value": 610,
+        "fact": "fta"
+      }
+    ]
+  },
+  "event": {
+    "type": "Intercepted",
+    "params": {
+      "message": "Operation Should be Intercepted!"
+    }
+  }
+}
