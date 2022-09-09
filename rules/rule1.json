@@ -1,0 +1,17 @@
+{
+  "conditions": {
+    "all": [
+      {
+        "operator": "equal",
+        "value": true,
+        "fact": "displayMessage"
+      }
+    ]
+  },
+  "event": {
+    "type": "message",
+    "params": {
+      "data": "foohello-world!"
+    }
+  }
+}
