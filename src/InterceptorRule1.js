@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 const port = 9080;
-app.listen(port, () => console.log(`Listening on port ${port}..`));
+const server = app.listen(port, () => console.log(`Listening on port ${port}..`));
 
 //CREATE Request Handler
 app.post('/tmf-api/InterceptorObj', (req, res)=> {
@@ -77,11 +77,13 @@ engine.addRule(ruleFileObj);
 
 engine.on('success', (event, almanac, ruleResult) => {
     console.log("Operation Should be Intercepted!".red)
+    res.status(200).send("Operation Should be Intercepted!")
     })
 
 engine.on('failure', (event, almanac, ruleResult) => {
   console.log("DO NOT Intercept!".red)
   res.status(400).send("DO NOT Intercept!")
+  
   })
   /**
    * define the facts
@@ -101,8 +103,6 @@ engine.on('failure', (event, almanac, ruleResult) => {
 
 let { resp } =  start();
 
-//console.log(resp);
-res.send("{ DONE! }");
 /*
 END Rules
 */
@@ -110,6 +110,7 @@ END Rules
 //res.send(events.map(event => event.params.message));
 
 });
+
 
 
 function validateBook(book) {
