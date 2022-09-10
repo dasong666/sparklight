@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Rules API Demo",
   "author": "David Song <dasong@redhat.com>",
-  "main": "server.js",
+  "main": "InterceptorRule1.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node src/InterceptorRule1.js"
   },
   "dependencies": {
     "express": "^4.18.1"
