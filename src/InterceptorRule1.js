@@ -40,7 +40,8 @@ async function start () {
 
   let ruleData = "";
   try {
-    ruleData = await fs.readFile('../rules/rule2.json', { encoding: 'utf8' });
+    ruleData = await fs.readFile('/usr/src/app/rules/rule2.json', { encoding: 'utf8' });
+    //ruleData = await fs.readFile('../rules/rule2.json', { encoding: 'utf8' });
   } catch (err) {
     console.log(err)
   }
