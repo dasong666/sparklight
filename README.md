@@ -15,7 +15,7 @@ We customize the open-source upstream ```json-rules-engine``` project to perform
 
 ## Installation
 
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc apply -f rulesapi-v1.yaml -n {your namespace}"><pre class="notranslate"><code>oc apply -f rulesapi-v1.yaml -n {your namespace}</code></pre></div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc apply -f yaml/rulesapi-v1.yaml -n {your namespace}"><pre class="notranslate"><code>oc apply -f yaml/rulesapi-v1.yaml -n {your namespace}</code></pre></div>
 
 ## Rules Template
 
