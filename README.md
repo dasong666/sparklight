@@ -19,10 +19,13 @@ We customize the open-source upstream ```json-rules-engine``` project to perform
 
 ## Rules Template
 
-Input: _Fact_ (Payload)
-Output: _Event_
+- Input: _Fact_ (Payload)
+- Output: _Event_
 
-A Rules Template contains a set of mandatory _Conditions_ with optional priority settings.  Evaluate input _Fact_ using the defined _Conditions_ triggering output _Event_.
+A Rules Template contains a set of mandatory _Conditions_ with optional _priority_ settings.  Evaluate input _Fact_ using the defined _Conditions_ triggering output _Event_.
+
+`[Priority, default 1]` Dictates when rule should be run, relative to other rules. Higher priority rules are run before lower priority rules. Rules with the same priority are run in parallel. Priority must be a positive, non-zero integer.
+For example, priority=2 will run BEFORE priority=1, etc.
 
 <div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="{
   "conditions": {
@@ -50,7 +53,8 @@ A Rules Template contains a set of mandatory _Conditions_ with optional priority
     "params": {
       "message": "Operation Should be Intercepted!"
     }
-  }
+  },
+  "priority": 1                                                 
 }"><pre class="notranslate"><code>
 {
   "conditions": {
@@ -78,7 +82,8 @@ A Rules Template contains a set of mandatory _Conditions_ with optional priority
     "params": {
       "message": "Operation Should be Intercepted!"
     }
-  }
+  },
+  "priority": 1
 }
 </code></pre></div>
 
