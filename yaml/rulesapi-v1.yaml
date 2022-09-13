@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rulesapi
+  labels:
+    app: rulesapi
+    service: rulesapi
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: rulesapi
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: integration-rulesapi
+  labels:
+    account: rulesapi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rulesapi-v1
+  labels:
+    app: rulesapi
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rulesapi
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: rulesapi
+        version: v1
+    spec:
+      serviceAccountName: integration-rulesapi
+      containers:
+      - name: integration-rules-api
+        image: dasong5/integration-rules-api:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}
