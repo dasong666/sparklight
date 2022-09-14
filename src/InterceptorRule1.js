@@ -118,7 +118,7 @@ function validateBook(book) {
 
   const schema = Joi.object({
 
-      oc: Joi.number().integer().required(),
+      oc: Joi.array().items(Joi.number().integer().required()),
       fta: Joi.number().integer().required(),
       FirstName: Joi.string(),
       LastName: Joi.string(),
