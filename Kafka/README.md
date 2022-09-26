@@ -61,4 +61,6 @@ https://github.com/strimzi/strimzi-kafka-operator/blob/main/examples/metrics/pro
 ```shell
 oc apply -f prometheus-rules.yaml -n <project-name>
 ```
-
+- Following screenshots show successful deployment of PodMonitors and PrometheusRule. 
+![](podmonitor.png) 
+![](promorule.png)
