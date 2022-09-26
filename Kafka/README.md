@@ -165,3 +165,9 @@ oc create route edge <grafana-route-name> --service=grafana --namespace=<project
 ![](promo-datasource.png)
 
 ## Importing the example Grafana dashboards
+- An example Grafana Kafka Dashboard can be found here. 
+https://github.com/strimzi/strimzi-kafka-operator/blob/main/examples/metrics/grafana-dashboards/strimzi-kafka.json
+- To upload it: Grafana->Dashboard->Import->Upload JSON file. 
+- If successfully installed, you should see a dashboard named ```Strimzi Kafka```
+
+![](strimzi-kafka.png)
