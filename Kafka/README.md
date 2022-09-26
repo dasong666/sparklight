@@ -146,5 +146,22 @@ oc create configmap grafana-config --from-file=datasource.yaml -n <project-name>
 ```shell
 oc apply -f yaml/grafana.yaml -n <project-name>
 ```
+- Verify the Grafana pod is running
+- Create Openshift Route to Grafana portal using either Openshift Admin Console or command line
+```shell
+oc create route edge <grafana-route-name> --service=grafana --namespace=<project-name>
+```
+#### Troubleshooting Tips: Grafana Connection Issues to Prometheus Datasource
+- Delete the existing ```Prometheus Data Source``` from Grafana->Configuration->Data Sources
+- Add a new ```Prometheus Data Source```
+- Fill out these fields in the data source configuration screen
+  - URL: ```https://thanos-querier.openshift-monitoring.svc.cluster.local:9091```
+  - Skip TLS Verify: ```true```
+  - Add a Custom HTTP Header called ```Authorization```
+  - Value in this format: ```Bearer <your-token>```
+  - Click ```Save & Test``` button
+  - If error, repeat above steps, take care to not have any spaces or typos in the bearer token string. 
+
+![](promo-datasource.png)
 
 ## Importing the example Grafana dashboards
