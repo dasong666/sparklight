@@ -4,11 +4,15 @@ We customize ```Prometheus``` define rules to scrape AMQ Streams (Kafka) metrics
 
 ## Pre-requisites and Dependencies
 
-.Cluster Admin Roles
-* Monitoring for ```user-defined projects``` is enabled 
-* Your cluster admin has created a ```cluster-monitoring-config``` config map in your OpenShift cluster
-* Your cluster admin has assigned you a ```monitoring-rules-edit``` or ```monitoring-edit``` role.
+### Cluster Admin Roles
+- Monitoring for ```user-defined projects``` is enabled 
+- Your cluster admin has created a ```cluster-monitoring-config``` config map in your OpenShift cluster
+- Your cluster admin has assigned you a ```monitoring-rules-edit``` or ```monitoring-edit``` role
+- Details for setting up OpenShift monitoring and user-defined-workload monitoring can be found here in official Red Hat documentation:  
+https://access.redhat.com/documentation/en-us/openshift_container_platform/4.10/html/monitoring/monitoring-overview
 
+
+### Openshift User-Workload-Monitoring
 * Rules specified in JSON templates
 * Full support for ```ALL``` and ```ANY``` boolean operators
 * Specify ```priority levels``` and cache settings for fine tuning performance
