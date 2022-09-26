@@ -13,15 +13,11 @@ https://access.redhat.com/documentation/en-us/openshift_container_platform/4.10/
 
 
 ### Openshift User-Workload-Monitoring
-* Rules specified in JSON templates
-* Full support for ```ALL``` and ```ANY``` boolean operators
-* Specify ```priority levels``` and cache settings for fine tuning performance
-* REST API interface
-* Container Image on Docker Hub
-* Can be deployed on OpenShift as Pod
-* Can be part of EIP design pattern (as a Camel REST endpoint route)
-* Can be exposed using OpenShift Route
+* Verify that monitoring for user-defined projects is enabled:
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc get pods -n openshift-user-workload-monitoring"><pre class="notranslate"><code>oc get pods -n openshift-user-workload-monitoring</code></pre></div>
+* If enabled, pods for the monitoring components are returned. For example:
+![](monitoring-pods.png)
 
 ## Installation
 
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc apply -f yaml/rulesapi-v1.yaml -n {your namespace}"><pre class="notranslate"><code>oc apply -f yaml/rulesapi-v1.yaml -n {your namespace}</code></pre></div>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc get pods -n openshift-user-workload-monitoring"><pre class="notranslate"><code>oc get pods -n openshift-user-workload-monitoring</code></pre></div>
