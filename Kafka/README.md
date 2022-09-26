@@ -24,7 +24,7 @@ You need to following the instructions in section ```2.3. Preparing to configure
 https://access.redhat.com/documentation/en-us/openshift_container_platform/4.10/html-single/monitoring/index#configuring-the-monitoring-stack. 
 
 
-## Install PodMonitors
+## Install PodMonitors and PrometheusRule
 
 - Multiple PodMonitor resources are defined in: 
 https://github.com/strimzi/strimzi-kafka-operator/blob/main/examples/metrics/prometheus-install/strimzi-pod-monitor.yaml
@@ -70,3 +70,19 @@ oc get podmonitor -n <project-name>
 oc get prometheusrule -n <project-name>
 ```
 ![](promorule.png)
+
+## Creating a service account for Grafana
+
+- Create a ```ServiceAccount``` for Grafana. Here the resource is named ```grafana-serviceaccount```. 
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-serviceaccount
+  labels:
+    app: strimzi
+```
+- Deploy the ```ServiceAccount``` to the project containing your Kafka cluster. 
+```shell
+oc apply -f serviceaccount.yaml -n <project-name>
+```
