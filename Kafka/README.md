@@ -53,7 +53,7 @@ spec:
 
 - Deploy the pod monitors to the namespace where your Kafka cluster is running. 
 ```shell
-oc apply -f strimzi-pod-monitor.yaml -n <project-name>
+oc apply -f yaml/strimzi-pod-monitor.yaml -n <project-name>
 ```
 - Deploy the example Prometheus rules to the same project. 
 https://github.com/strimzi/strimzi-kafka-operator/blob/main/examples/metrics/prometheus-install/prometheus-rules.yaml. 
@@ -71,7 +71,7 @@ oc get prometheusrule -n <project-name>
 ```
 ![](promorule.png)
 
-## Creating a service account for Grafana
+## Grafana Credentials: ServiceAccount, ClusterRoleBinding
 
 - Create a ```ServiceAccount``` for Grafana. Here the resource is named ```grafana-serviceaccount```. 
 ```yaml
@@ -84,5 +84,67 @@ metadata:
 ```
 - Deploy the ```ServiceAccount``` to the project containing your Kafka cluster. 
 ```shell
-oc apply -f serviceaccount.yaml -n <project-name>
+oc apply -f yaml/serviceaccount.yaml -n <project-name>
 ```
+- Create a ```ClusterRoleBinding``` resource that assigns the ```cluster-monitoring-view``` role to the Grafana ServiceAccount. 
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: grafana-cluster-monitoring-binding
+  labels:
+    app: strimzi
+subjects:
+  - kind: ServiceAccount
+    name: grafana-serviceaccount
+    namespace: amq-streams
+roleRef:
+  kind: ClusterRole
+  name: cluster-monitoring-view
+  apiGroup: rbac.authorization.k8s.io
+```
+- Deploy the ```ClusterRoleBinding``` to the project containing your Kafka cluster. 
+```shell
+oc apply -f yaml/clusterrolebinding.yaml -n <project-name>
+```
+
+## Deploying Grafana with a Prometheus datasource
+- OCP includes a ```Thanos Querier``` instance in the ```openshift-monitoring``` project. It is used to aggregate platform metrics.  
+- To consume the required platform metrics, your Grafana instance requires a ```Prometheus data source``` that can connect to ```Thanos Querier```. To configure this connection, you create a ```ConfigMap``` that authenticates, by using a token, to the ```oauth-proxy``` sidecar that runs alongside Thanos Querier. A ```datasource.yaml``` file is used as the source of the config map. 
+- Finally, you deploy the Grafana application with the config map mounted as a ```volume``` to the project containing your Kafka cluster. 
+
+### Grafana/Prometheus Deployment Steps
+- Get the access token of the Grafana ServiceAccount
+```shell
+oc serviceaccounts get-token grafana-serviceaccount -n <project-name>
+```
+- Create a ```datasource.yaml``` file containing the Thanos Querier configuration for Grafana. 
+Paste the access token into the ```httpHeaderValue1``` property as indicated:  
+```yaml
+apiVersion: 1
+datasources:
+- name: Prometheus
+  type: prometheus
+  url: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091
+  access: proxy
+  basicAuth: false
+  withCredentials: false
+  isDefault: true
+  jsonData:
+    timeInterval: 5s
+    tlsSkipVerify: true
+    httpHeaderName1: "Authorization"
+  secureJsonData:
+    httpHeaderValue1: 'Bearer ${GRAFANA-ACCESS-TOKEN}"
+  editable: true
+```
+- Create a config map named ```grafana-config``` from the datasource.yaml file:
+```shell
+oc create configmap grafana-config --from-file=datasource.yaml -n <project-name>
+```
+- Deploy the Grafana application to the project containing your Kafka cluster:
+```shell
+oc apply -f yaml/grafana.yaml -n <project-name>
+```
+
+## Importing the example Grafana dashboards
