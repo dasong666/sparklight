@@ -23,6 +23,15 @@ https://access.redhat.com/documentation/en-us/openshift_container_platform/4.10/
 You need to following the instructions in section ```2.3. Preparing to configure the monitoring stack```  
 https://access.redhat.com/documentation/en-us/openshift_container_platform/4.10/html-single/monitoring/index#configuring-the-monitoring-stack. 
 
+## Install Kafka CRD with Metrics
+
+- Install the Red Hat AMQ-Streams Operator in your own namepsace (e.g. amq-streams)
+- Apply the Kafka cluster definition with metrics defined
+- Wait for the Kafka/Zookeeper pods to be in running status
+
+```shell
+oc apply -f yaml/kafka-metrics.yaml -n <project-name>
+```
 
 ## Install PodMonitors and PrometheusRule
 
