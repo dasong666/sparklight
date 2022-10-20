@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    load-test: producer
+  name: load-test-large
+spec:
+  activeDeadlineSeconds: 86400
+  completions: 3
+  parallelism: 3
+  template:
+    metadata:
+      name: load-test-producer-job
+    spec:
+      containers:
+        - args:
+            - '--topic'
+            - perf-testing
+            - '--num-records'
+            - '1000000'
+            - '--record-size'
+            - '50000'
+            - '--producer-props'
+            - >-
+              bootstrap.servers=my-cluster-kafka-brokers.amq-streams.svc.cluster.local:9092
+            - buffer.memory=51000
+            - batch.size=0
+            - '--throughput=-1'
+          command:
+            - ./bin/kafka-producer-perf-test.sh
+          env:
+            - name: LOAD_TEST_TYPE
+              value: producer
+          image: 'registry.redhat.io/amq7/amq-streams-kafka-22:1.2.0'
+          name: load-test-producer
+      restartPolicy: Never
