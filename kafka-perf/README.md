@@ -12,11 +12,21 @@ not empty so the results could be skewed by other clients using the broker.
 * A new namespace ```perf-testing``` was created to run the tests from.  The tests send configurable amounts of messages to topics running on Kafka brokers on the ```amq-streams``` namespace.
 
 * Alternatively, secure ```external route``` to Kafka ```bootstrap``` service can also be used.  TLS truststores must
-be set up for the client (See Appendix). The following yaml code can be applied in the
+be set up for the client (See Appendix). 
+
+### Installation
+
+* Edit ```yaml/kafka-test.yaml``` and provide your Kafka bootstrap cluster-local URL in the ```spec.template.spec.containers.args.bootstrap.servers```
+
+* For example, ```my-cluster-kafka-brokers.amq-streams.svc.cluster.local:9092```
+
+* The following yaml code can be applied in the
 ```perf-testing``` namespace by running this command 
 ```shell
-oc apply -f testing.yaml -n perf-testing”
+oc apply -f yaml/kafka-testing.yaml -n perf-testing”
 ```
+
+
 ## Pre-requisites and Dependencies
 
 ### Cluster Admin Roles
