@@ -22,6 +22,7 @@ https://access.redhat.com/documentation/en-us/openshift_container_platform/4.10/
 * If no pods are returned, monitoring for user-defined projects is disabled.  
 You need to following the instructions in section ```2.3. Preparing to configure the monitoring stack```  
 https://access.redhat.com/documentation/en-us/openshift_container_platform/4.10/html-single/monitoring/index#configuring-the-monitoring-stack. 
+* In the above documentation, make sure ```enableUserWorkload: true``` is defined in ```cluster-monitoring-config``` ConfigMap in the ```openshift-monitoring``` namespace.  The documentation style can be confusing to some readers.
 
 ## Install Kafka CRD with Metrics
 
