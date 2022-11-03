@@ -58,9 +58,17 @@ oc get pods --watch -n <project-name>
 https://www.kafkatool.com/download.html
 ```
 - In this example, we are using an external OpenShift TLS-edge ```Route``` that proxies to the Kafka cluster ```bootstrap``` service
-- If your Offset Explorer is installed locally within your OpenShift cluster, use the ```bootstrap``` cluser-local instead
+- If your Offset Explorer is installed locally within your OpenShift cluster, use the ```bootstrap``` cluster-local service instead
 - On the ```Properties``` tab, enter your Kafka cluster name, select Kafka cluster version, enter your Kafka cluster Zookeeper endpoint and port.
 - On the ```Security``` tab, select ```SSL``` and provide full path to your truststore that contains the Kafka server CA cert and truststore password
+- This command can be used to extract and save the Kafka cluster server CA cert
+```shell
+oc extract secret/<your-kafka-cluster-name>-cluster-ca-cert --keys=ca.crt --to=- > ca.crt
+```
+- Then create a truststore from the CA cert
+```shell
+keytool -import -alias root -file ca.crt -storetype JKS -keystore truststore.jks
+```
 - Optional: on the ```Advanced``` tab, you can provide the ```bootstrap``` endpoint and port directly instead of having the tool to discover bootstrap through Zookeeper
 - Following screenshots are provided as examples of above steps
 
