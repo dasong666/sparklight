@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
   - namespaces.yaml
-  - rules-v1.yaml
+  - rulesapi-v1.yaml
